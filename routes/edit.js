@@ -39,6 +39,7 @@ router
   var sale_method = req.body.sale_method;
   var sale_payment_type = req.body.sale_payment_type;
 
+  // Manual processing of numeric fields in sale query
   if (sale_payment_type === undefined) {
     sale_payment_type = '';
   }
