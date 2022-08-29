@@ -43,9 +43,8 @@
             <table class="table-spacing">
               
               <%
-              console.log(action);
               if(userData.length!=0 && action == 'Load'){
-              userData.forEach(function(data){
+
               %>
               <tr>
                 <th>Shoe ID</th>
@@ -63,6 +62,11 @@
                 <th class="widerow">Sale Method</th>
                 <th class="widerow">Sale Payment Type</th>
               </tr>
+              <%
+              userData.forEach(function(data){
+              %>
+
+              
               <tr>
                   <td><%=data.dataid %></td>
                   <td><%=data.name %></td>
