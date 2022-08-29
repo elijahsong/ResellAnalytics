@@ -9,6 +9,7 @@ var session = require('express-session');
 var mysql = require('mysql2');
 var cookieParser = require("cookie-parser");
 
+const insert = require("./routes/insert");
 const update = require("./routes/update");
 const edit = require("./routes/edit");
 const deleteRouter = require("./routes/delete");
@@ -39,6 +40,8 @@ app.use(session({
 app.use(flash());
 app.use(cookieParser());
  
+app.use('/insert', insert);
+
 app.use('/update', update);
 // use the update.js to handle endpoints starting with /update
 
@@ -50,43 +53,15 @@ app.use('/search', search);
 
 /* GET home page, respond by rendering index.ejs */
 app.get('/', function(req, res, next) {
-  res.render('insert', { title: 'Insert a Shoe' });
+  res.render('index', { title: 'Home' });
 });
-
-app.get('/insert', function(req, res, next) {
-  res.render('insert', { title: 'Insert a Shoe' });
-});
-
-/*
-app.get('/update', function(req, res, next) {
-  res.render('update', { title: 'Update a Shoe' });
-});
-
-app.post('/update', function(req, res, next) {
-  var id = req.body.id;
-  res.cookie("pass id", id, {httpOnly: true});
-  res.redirect('/updateresults.html');
-});
-
-app.get('/update/results', function(req, res,next) {
-  var id = req.cookies["pass id"];
-  console.log(id);
-  var sql=`SELECT DISTINCT p.id AS dataid, sh.name AS name, i.SKU AS SKU, i.size AS size, i.status AS status, 
-  p.date AS date, p.price AS price, p.method AS method, p.payment_type AS payment, 
-  s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment 
-  FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
-  WHERE p.id = ${id} LIMIT 20`;
-  connection.query(sql, function (err, data, fields) {
-    if (err) throw err;
-    res.render('updateresults', { title: 'Update a Shoe', userData: data, action: 'Load'})});
-});
-*/
 
 app.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' });
 });
 
 
+/*
 // this code is executed when a user clicks the form submit button
 app.post('/insert.html', function(req, res, next) {
   var purchase_date = req.body.date;
@@ -161,6 +136,7 @@ app.post('/insert.html', function(req, res, next) {
     
   });
   });
+*/
 
 /** app.post('/delete.html', function(req, res, next) {
   var id = req.body.id;

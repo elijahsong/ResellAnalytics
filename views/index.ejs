@@ -1,11 +1,30 @@
 <!DOCTYPE html>
-<html>
+
+<div class="topnav">
+  <a class="active" href="/">Home</a>
+  <a href="/insert">Insert</a>
+  <a href="/search">Search</a>
+  <a href="/login">Login</a>
+</div>
+
+<html lang="en">
   <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   </head>
+
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <% if (messages.success) { %>
+              <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
+          <% } %>  
+ 
+          <h2>Home Page - Under Construction</h2>
+    </div>
+  </div>
   </body>
 </html>
