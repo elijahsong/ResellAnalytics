@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 
 <div class="topnav">
-  <a class="active" href="/insert.html">Insert</a>
-  <a href="/update.html">Update</a>
-  <a href="/search.html">Search</a>
-  <a href="/login.html">Login</a>
+  <a class="active" href="/insert">Insert</a>
+  <a href="/update">Update</a>
+  <a href="/search">Search</a>
+  <a href="/login">Login</a>
 </div>
 
 <html lang="en">
@@ -39,15 +39,16 @@
           <% } %>  
  
           <h2>Search Results</h2>
-          <div class ="card-body" id = "wideresults">
+          <div class ="card-body" id="wideresults">
             <table class="table-spacing">
               
               <%
-              if(userData.length!=0){
+              console.log(action);
+              if(userData.length!=0 && action == 'Load'){
               userData.forEach(function(data){
               %>
-              <tr id="wideheader">
-                <th>ID</th>
+              <tr>
+                <th>Shoe ID</th>
                 <th>Name</th>
                 <th class="widerow">SKU</th>
                 <th>Size</th>
@@ -77,18 +78,258 @@
                   <td><%=data.extra_fees %></td>
                   <td><%=data.sale_method %></td>
                   <td><%=data.sale_payment %></td>
+                  <td><a href="/edit/<%= data.dataid %>" class="btn btn-primary btn-sm">Edit</a></td>
+                  <td><a href="/delete/<%= data.dataid %>" class="btn btn-primary btn-sm">Delete</a></td>
               </tr>
               <% }) %>
+              <% } else if(action == 'Edit') { %>
+            
+              </div>
+              </ br>
+              <div class="card-body">
+                <form action="/edit/<%= userData.dataid %>" method="POST">
+
+                  <div class="form-group">
+                    <label for="name">Shoe Name (Full) (cannot be changed)<span style="color: red">*</span></label>
+                    <input type="text" class="form-control col-lg-9" id="name" aria-describedby="emailHelp" placeholder="Shoe Name (Full)" name="name" value="<%= userData.name%>" readonly>
+                  </div>
+      
+                  <div class="form-group">
+                    <label for="color">SKU (cannot be changed)<span style="color: red">*</span></label>
+                    <input type="text" class="form-control col-lg-9" id="SKU" aria-describedby="emailHelp" placeholder="SKU" name="SKU" value="<%= userData.SKU%>" readonly>
+                  </div>
+      
+                  <div class="form-group">
+                    <label for="size">Shoe Size<span style="color: red">*</span></label>
+                    <input type="text" class="form-control col-lg-9" id="size" aria-describedby="emailHelp" placeholder="Shoe Size" name="size" value="<%= userData.size %>">
+                  </div>
+      
+                  <div class="form-group">
+                    <label for="status">Shoe Status<span style="color: red">*</span></label>
+      
+                    <select id="status" name="status">
+                      <option value="In stock">In stock</option>
+                      <option value="Coming soon">Coming soon</option>
+                      <option value="Sale complete">Sale complete</option>
+                      <option value="Cashout complete">Cashout complete</option>
+                      <option value="Shipped">Shipped</option>
+                      <option value="Need to ship">Need to ship</option>
+                    </select> 
+      
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="date">Purchase Date<span style="color: red">*</span></label>
+                    <input type="date" class="form-control col-lg-9" id="date" aria-describedby="emailHelp" placeholder="Purchase Date" name="date" value="<%= userData.date %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="price">Purchase Price<span style="color: red">*</span></label>
+                    <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control col-lg-9" id="price" aria-describedby="emailHelp" placeholder="Purchase Price" name="price" value="<%= userData.price %>">
+                  </div>
+      
+                  <div class="form-group">
+                    <label for="method">Purchase Method<span style="color: red">*</span></label>
+                    <input type="text" class="form-control col-lg-9" id="method" aria-describedby="emailHelp" name="method" placeholder="Purchase Method (IG, StockX)" value="<%= userData.method %>">
+                  </div>   
+                  
+                  <div class="form-group">
+                    <label for="payment_type">Purchase Payment Type<span style="color: red">*</span></label>
+      
+                    <select id="payment_type" name="payment_type">
+                      <option value="Debit">Debit</option>
+                      <option value="Credit">Credit</option>
+                      <option value="Zelle">Zelle</option>
+                      <option value="Paypal">Paypal</option>
+                      <option value="Venmo">Venmo</option>
+                      <option value="Cashapp">Cashapp</option>
+                      <option value="Paypal g&s">Paypal g&s</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Free">n/a</option>
+                    </select>
+                                
+                  </div>
+                  <!-- s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment -->
+
+                  <div class="form-group">
+                    <label for="sale_date">Sale Date <span style="color: red">*</span></label>
+                    <input type="date" class="form-control col-lg-9" id="sale_date" aria-describedby="emailHelp" placeholder="Sale Date" name="sale_date" value="<%= userData.sale_date %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="sale_price">Sale Price <span style="color: red">*</span></label>
+                    <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control col-lg-9" id="sale_price" aria-describedby="emailHelp" placeholder="Sale Price" name="sale_price" value="<%= userData.sale_price %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="extra_fees">Extra Fees <span style="color: red">*</span></label>
+                    <input type="number" min="-9999.99" max="9999.99" step="0.01" class="form-control col-lg-9" id="extra_fees" aria-describedby="emailHelp" placeholder="Sale Extra Fees" name="extra_fees" value="<%= userData.extra_fees %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="sale_method">Sale Method<span style="color: red">*</span></label>
+                    <input type="text" class="form-control col-lg-9" id="sale_method" aria-describedby="emailHelp" name="sale_method" placeholder="Sale Method (IG, StockX)" value="<%= userData.sale_method %>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="sale_payment_type">Sale Payment Type<span style="color: red">*</span></label>
+      
+                    <select id="sale_payment_type" name="sale_payment_type">
+                      <option value="Debit">Debit</option>
+                      <option value="Credit">Credit</option>
+                      <option value="Zelle">Zelle</option>
+                      <option value="Paypal">Paypal</option>
+                      <option value="Venmo">Venmo</option>
+                      <option value="Cashapp">Cashapp</option>
+                      <option value="Paypal g&s">Paypal g&s</option>
+                      <option value="Cash">Cash</option>
+                      <option value="Free">n/a</option>
+                    </select>
+                                
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <script>
+                  document.getElementById('status').value = "<%= userData.status %>";
+                  document.getElementById('payment_type').value = decodeURIComponent("<%= userData.payment %>");
+                  document.getElementById('sale_payment_type').value = decodeURIComponent("<%= userData.sale_payment %>");
+                  document.getElementById('status').value = "<%= userData.status %>";
+                  document.getElementById('date').value = "<%= userData.date %>";
+                  document.getElementById('price').value = "<%= userData.price %>";
+                  document.getElementById('sale_date').value = "<%= userData.sale_date %>";
+                  document.getElementById('sale_price').value = "<%= userData.sale_price %>";
+                  document.getElementById('extra_fees').value = "<%= userData.extra_fees %>";
+                </script>
+              </div>
+
+              <% } else if(action == 'Delete') { %>
+                <div class="card-body">
+                  <form action="/delete/<%= userData.dataid %>" method="POST" onSubmit = "return confirm('Do you really want to delete this shoe?');">
+
+
+  
+                    <div class="form-group">
+                      <label for="name">Shoe Name (Full)<span style="color: red">*</span></label>
+                      <input type="text" class="form-control col-lg-9" id="name" aria-describedby="emailHelp" placeholder="Shoe Name (Full)" name="name" value="<%= userData.name%>" readonly>
+                    </div>
+        
+                    <div class="form-group">
+                      <label for="color">SKU<span style="color: red">*</span></label>
+                      <input type="text" class="form-control col-lg-9" id="SKU" aria-describedby="emailHelp" placeholder="SKU" name="SKU" value="<%= userData.SKU%>" readonly>
+                    </div>
+        
+                    <div class="form-group">
+                      <label for="size">Shoe Size<span style="color: red">*</span></label>
+                      <input type="text" class="form-control col-lg-9" id="size" aria-describedby="emailHelp" placeholder="Shoe Size" name="size" value="<%= userData.size %>" readonly>
+                    </div>
+        
+                    <div class="form-group">
+                      <label for="status">Shoe Status<span style="color: red">*</span></label>
+        
+                      <select id="status" name="status" disabled>
+                        <option value="In stock">In stock</option>
+                        <option value="Coming soon">Coming soon</option>
+                        <option value="Sale complete">Sale complete</option>
+                        <option value="Cashout complete">Cashout complete</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Need to ship">Need to ship</option>
+                      </select> 
+        
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="date">Purchase Date<span style="color: red">*</span></label>
+                      <input type="date" class="form-control col-lg-9" id="date" aria-describedby="emailHelp" placeholder="Purchase Date" name="date" value="<%= userData.date %>" readonly>
+                    </div>
+  
+                    <div class="form-group">
+                      <label for="price">Purchase Price<span style="color: red">*</span></label>
+                      <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control col-lg-9" id="price" aria-describedby="emailHelp" placeholder="Purchase Price" name="price" value="<%= userData.price %>" readonly>
+                    </div>
+        
+                    <div class="form-group">
+                      <label for="method">Purchase Method<span style="color: red">*</span></label>
+                      <input type="text" class="form-control col-lg-9" id="method" aria-describedby="emailHelp" name="method" placeholder="Purchase Method (IG, StockX)" value="<%= userData.method %>" readonly>
+                    </div>   
+                    
+                    <div class="form-group">
+                      <label for="payment_type">Purchase Payment Type<span style="color: red">*</span></label>
+        
+                      <select id="payment_type" name="payment_type" disabled>
+                        <option value="Debit">Debit</option>
+                        <option value="Credit">Credit</option>
+                        <option value="Zelle">Zelle</option>
+                        <option value="Paypal">Paypal</option>
+                        <option value="Venmo">Venmo</option>
+                        <option value="Cashapp">Cashapp</option>
+                        <option value="Paypal g&s">Paypal g&s</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Free">n/a</option>
+                      </select>
+                                  
+                    </div>
+                    <!-- s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment -->
+  
+                    <div class="form-group">
+                      <label for="sale_date">Sale Date <span style="color: red">*</span></label>
+                      <input type="date" class="form-control col-lg-9" id="sale_date" aria-describedby="emailHelp" placeholder="Sale Date" name="sale_date" value="<%= userData.sale_date %>" readonly>
+                    </div>
+  
+                    <div class="form-group">
+                      <label for="sale_price">Sale Price <span style="color: red">*</span></label>
+                      <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control col-lg-9" id="sale_price" aria-describedby="emailHelp" placeholder="Sale Price" name="sale_price" value="<%= userData.sale_price %>" readonly>
+                    </div>
+  
+                    <div class="form-group">
+                      <label for="extra_fees">Extra Fees <span style="color: red">*</span></label>
+                      <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control col-lg-9" id="extra_fees" aria-describedby="emailHelp" placeholder="Sale Extra Fees" name="extra_fees" value="<%= userData.extra_fees %>" readonly>
+                    </div>
+  
+                    <div class="form-group">
+                      <label for="sale_method">Sale Method<span style="color: red">*</span></label>
+                      <input type="text" class="form-control col-lg-9" id="sale_method" aria-describedby="emailHelp" name="sale_method" placeholder="Sale Method (IG, StockX)" value="<%= userData.sale_method %>" readonly>
+                    </div>
+  
+                    <div class="form-group">
+                      <label for="sale_payment_type">Sale Payment Type<span style="color: red">*</span></label>
+        
+                      <select id="sale_payment_type" name="sale_payment_type" disabled>
+                        <option value="Debit">Debit</option>
+                        <option value="Credit">Credit</option>
+                        <option value="Zelle">Zelle</option>
+                        <option value="Paypal">Paypal</option>
+                        <option value="Venmo">Venmo</option>
+                        <option value="Cashapp">Cashapp</option>
+                        <option value="Paypal g&s">Paypal g&s</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Free">n/a</option>
+                      </select>
+                                  
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Delete</button>
+                  </form>
+                  <script>
+                    document.getElementById('status').value = "<%= userData.status %>";
+                    document.getElementById('payment_type').value = decodeURIComponent("<%= userData.payment %>");
+                    document.getElementById('sale_payment_type').value = decodeURIComponent("<%= userData.sale_payment %>");
+                    document.getElementById('date').value = "<%= userData.date %>";
+                    document.getElementById('price').value = "<%= userData.price %>";
+                    document.getElementById('sale_date').value = "<%= userData.sale_date %>";
+                    document.getElementById('sale_price').value = "<%= userData.sale_price %>";
+                    document.getElementById('extra_fees').value = "<%= userData.extra_fees %>";
+                  </script>
+                </div>
 
               <% } else { %>
                   <tr>
-                      <td colspan="7">No Results Found</td>
+                      <td colspan="7">No Data Found</td>
                   </tr>
               <% } %>
 
             </table>
           </div>
     </div>
-  </div>
   </body>
 </html>

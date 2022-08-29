@@ -18,7 +18,7 @@ router
     var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
     var userData = JSON.parse(rawData);
     console.log(userData);
-    res.render('updateresults', {title: 'Edit Shoe Data', action: 'Edit', userData});
+    res.render('searchresults', {title: 'Edit Shoe Data', action: 'Edit', userData});
   });
   })
   .post(function(req, res, next){
@@ -99,7 +99,7 @@ router
             } else {
               console.log('Sales table updated');
               req.flash('success', 'Data updated succesfully!');
-              res.redirect('/update');
+              res.redirect('/search');
             }
           });
         }

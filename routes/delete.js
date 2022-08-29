@@ -18,7 +18,7 @@ router
     var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
     var userData = JSON.parse(rawData);
     console.log(userData);
-    res.render('updateresults', {title: 'Edit Shoe Data', action: 'Delete', userData});
+    res.render('searchresults', {title: 'Edit Shoe Data', action: 'Delete', userData});
   });
   })
   .post(function(req, res, next){
@@ -42,7 +42,7 @@ router
         connection.query(sql3, function(err,result) {
            console.log('Shoe with id ' + id + ' deleted from Purchases');
            req.flash('success', 'Data deleted successfully!');
-           res.redirect('/update');
+           res.redirect('/search');
         });
       }
     });

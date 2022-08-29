@@ -9,9 +9,9 @@ router
     res.render('update', { title: 'Update a Shoe' });
   })
   .post(function(req, res, next) {
-  var id = req.body.id;
-  res.cookie("pass id", id, {httpOnly: true});
-  res.redirect('/update/results');
+    var id = req.body.id;
+    res.cookie("pass id", id, {httpOnly: true});
+    res.redirect('/update/results');
   });
 
 router.get('/results', function(req, res,next) {
@@ -25,7 +25,8 @@ router.get('/results', function(req, res,next) {
   WHERE p.id = ${id} LIMIT 20`;
   connection.query(sql, function (err, data, fields) {
     if (err) throw err;
-    res.render('updateresults', { title: 'Update a Shoe', userData: data, action: 'Load'})});
+    res.render('updateresults', { title: 'Update a Shoe', userData: data, action: 'Load'})
+  });
 });
 
 module.exports = router;
