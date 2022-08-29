@@ -13,7 +13,7 @@ router
   p.date AS date, p.price AS price, p.method AS method, p.payment_type AS payment, 
   s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment 
   FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) LEFT JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
-  WHERE p.id = ${id} LIMIT 20`;
+  WHERE p.id = ${connection.escape(id)} LIMIT 20`;
   connection.query(sql, function(err, data) {
     var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
     var userData = JSON.parse(rawData);
@@ -56,19 +56,19 @@ router
 
   var sql1 = `
     UPDATE Purchases
-    SET date = '${purchase_date}',
-    price = ${purchase_price},
-    method = '${purchase_method}',
-    payment_type = '${payment_type}'
-    WHERE id = ${id}
+    SET date = ${connection.escape(purchase_date)},
+    price = ${connection.escape(purchase_price)},
+    method = ${connection.escape(purchase_method)},
+    payment_type = ${connection.escape(payment_type)}
+    WHERE id = ${connection.escape(id)}
   `;
 
   var sql2 = `
     UPDATE Inventory
-    SET SKU = '${SKU}',
-    size = '${size}',
-    status = '${status}'
-    WHERE inventory_id = ${id}
+    SET SKU = ${connection.escape(SKU)},
+    size = ${connection.escape(size)},
+    status = ${connection.escape(status)}
+    WHERE inventory_id = ${connection.escape(id)}
   `;
 
   var sql3 = `
@@ -76,9 +76,9 @@ router
     SET date = ${sale_date},
     price = ${sale_price},
     extra_fees = ${extra_fees},
-    method = '${sale_method}',
-    payment_type = '${sale_payment_type}'
-    WHERE sales_id = ${id}
+    method = ${connection.escape(sale_method)},
+    payment_type = ${connection.escape(sale_payment_type)}
+    WHERE sales_id = ${connection.escape(id)}
   `;
 
   console.log(sql3);
