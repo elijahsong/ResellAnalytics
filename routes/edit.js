@@ -80,6 +80,8 @@ router
     payment_type = '${sale_payment_type}'
     WHERE sales_id = ${id}
   `;
+
+  console.log(sql3);
   
   connection.query(sql1, function(err, result) {
     if (err) {

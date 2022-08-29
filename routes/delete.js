@@ -31,7 +31,7 @@ router
     if (err) {
       throw err;
     } else {
-    console.log('SHOE with id ' + id + ' deleted from Inventory');
+    console.log('Shoe with id ' + id + ' deleted from Inventory');
     
     connection.query(sql2, function(err,result) {
       if (err) {

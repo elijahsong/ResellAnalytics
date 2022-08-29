@@ -16,7 +16,7 @@ CREATE TRIGGER SaleTrig
     IF new.Price IS NOT NULL THEN
       UPDATE Inventory
       SET status = 'Sale complete'
-      WHERE id = new.id;
+      WHERE inventory_id = new.sales_id;
     END IF;
   END;
 //

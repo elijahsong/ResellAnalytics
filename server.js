@@ -10,7 +10,6 @@ var mysql = require('mysql2');
 var cookieParser = require("cookie-parser");
 
 const insert = require("./routes/insert");
-const update = require("./routes/update");
 const edit = require("./routes/edit");
 const deleteRouter = require("./routes/delete");
 const search = require("./routes/search");
@@ -41,9 +40,6 @@ app.use(flash());
 app.use(cookieParser());
  
 app.use('/insert', insert);
-
-app.use('/update', update);
-// use the update.js to handle endpoints starting with /update
 
 app.use('/edit', edit);
 
