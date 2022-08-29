@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<div class="topnav">
+  <a class="active" href="/insert.html">Insert</a>
+  <a href="/update">Update</a>
+  <a href="/search.html">Search</a>
+  <a href="/login.html">Login</a>
+</div>
+
+<html lang="en">
+  <head>
+    <title>Update a Shoe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <% if (messages.success) { %>
+              <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
+          <% } %>  
+ 
+          <h2>Edit or Delete a Shoe</h2>
+ 
+          <form action="update" method="POST">
+
+            <div class="form-group">
+              <label for="id">ID<span style="color: red">*</span></label>
+              <input type="number" min="1" max="9999" step="1" class="form-control col-lg-9" id="id" aria-describedby="emailHelp" placeholder="ID" name="id" required>
+            </div> 
+
+            <button type="submit" class="btn btn-primary">Lookup</button>
+  
+          </div>
+            
+          </form>
+          
+    </div>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<div class="topnav">
+  <a class="active" href="/insert.html">Insert</a>
+  <a href="/update">Update</a>
+  <a href="/search.html">Search</a>
+  <a href="/login.html">Login</a>
+</div>
+
+<html lang="en">
+  <head>
+    <title>Insert a Shoe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <% if (messages.success) { %>
+              <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
+          <% } %>  
+ 
+          <h2>Insert a New Shoe</h2>
+ 
+          <form action="insert.html" method="POST">
+
+            <div class="form-group">
+              <label for="name">Shoe Name (Full) - cannot be changed<span style="color: red">*</span></label>
+              <input type="text" class="form-control col-lg-9" id="name" aria-describedby="emailHelp" placeholder="Shoe Name (Full)" name="name" required>
+            </div>
+
+            <div class="form-group">
+              <label for="color">SKU - cannot be changed<span style="color: red">*</span></label>
+              <input type="text" class="form-control col-lg-9" id="SKU" aria-describedby="emailHelp" placeholder="SKU" name="SKU" required>
+            </div>
+
+            <div class="form-group">
+              <label for="size">Shoe Size<span style="color: red">*</span></label>
+              <input type="text" class="form-control col-lg-9" id="size" aria-describedby="emailHelp" placeholder="Shoe Size" name="size" required>
+            </div>
+
+            <div class="form-group">
+              <label for="status">Shoe Status<span style="color: red">*</span></label>
+
+              <select id="status" name="status">
+                <option value="In stock">In stock</option>
+                <option value="Coming soon">Coming soon</option>
+                <option value="Sale complete">Sale complete</option>
+                <option value="Cashout complete">Cashout complete</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Need to ship">Need to ship</option>
+              </select> 
+
+            </div>
+
+            <div class="form-group">
+              <label for="date">Purchase Date<span style="color: red">*</span></label>
+              <input type="date" class="form-control col-lg-9" id="date" aria-describedby="emailHelp" placeholder="Purchase Date" name="date" required>
+            </div>
+
+            <div class="form-group">
+              <label for="price">Price<span style="color: red">*</span></label>
+              <input type="number" min="0.00" max="9999.99" step="0.01" class="form-control col-lg-9" id="price" aria-describedby="emailHelp" placeholder="Price" name="price" required>
+            </div>
+
+            <div class="form-group">
+              <label for="method">Purchase Method<span style="color: red">*</span></label>
+              <input type="text" class="form-control col-lg-9" id="method" aria-describedby="emailHelp" name="method" placeholder="Purchase Method (IG, StockX)" required>
+            </div>   
+
+            <div class="form-group">
+              <label for="payment_type">Payment Type<span style="color: red">*</span></label>
+
+              <select id="payment_type" name="payment_type">
+                <option value="Debit">Debit</option>
+                <option value="Credit">Credit</option>
+                <option value="Zelle">Zelle</option>
+                <option value="Paypal">Paypal</option>
+                <option value="Venmo">Venmo</option>
+                <option value="Cashapp">Cashapp</option>
+                <option value="Paypal g&s">Paypal g&s</option>
+                <option value="Cash">Cash</option>
+                <option value="Free">n/a</option>
+              </select>
+                          
+            </div>
+            <button type="submit" class="btn btn-primary">Insert</button>
+          </form>
+    </div>
+  </div>
+  </body>
+</html>

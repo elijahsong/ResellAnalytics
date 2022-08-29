@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<div class="topnav">
+  <a class="active" href="/insert.html">Insert</a>
+  <a href="/update.html">Update</a>
+  <a href="/search.html">Search</a>
+  <a href="/login.html">Login</a>
+</div>
+
+<html lang="en">
+  <head>
+    <title>Update a Shoe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+      #wideresults {
+        overflow: auto;    
+        scrollbar-base-color:#ffeaff;
+        padding:10px !important;
+        border-spacing: 10px 0 !important;
+      }
+      .widerow {
+        white-space:nowrap !important;
+      }
+      .table-spacing{
+        border-spacing: 10px !important;
+        border-collapse: separate;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <% if (messages.success) { %>
+              <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
+          <% } %>  
+ 
+          <h2>Search Results</h2>
+          <div class ="card-body" id = "wideresults">
+            <table class="table-spacing">
+              
+              <%
+              if(userData.length!=0){
+              userData.forEach(function(data){
+              %>
+              <tr id="wideheader">
+                <th>ID</th>
+                <th>Name</th>
+                <th class="widerow">SKU</th>
+                <th>Size</th>
+                <th>Status</th>
+                <th class="widerow">Purchase Date</th>
+                <th>Purchase Price</th>
+                <th class="widerow">Purchase Method</th>
+                <th class="widerow">Purchase Payment Type</th>
+                <th class="widerow">Sale Date</th> <!-- s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment  -->
+                <th>Sale Price</th>
+                <th>Extra Fees</th>
+                <th class="widerow">Sale Method</th>
+                <th class="widerow">Sale Payment Type</th>
+              </tr>
+              <tr>
+                  <td><%=data.dataid %></td>
+                  <td><%=data.name %></td>
+                  <td><%=data.SKU %></td>
+                  <td><%=data.size %></td>
+                  <td><%=data.status %></td>
+                  <td><%=data.date %></td>
+                  <td><%=data.price %></td>
+                  <td><%=data.method %></td>
+                  <td><%=data.payment %></td>
+                  <td><%=data.sale_date %></td>
+                  <td><%=data.sale_price %></td>
+                  <td><%=data.extra_fees %></td>
+                  <td><%=data.sale_method %></td>
+                  <td><%=data.sale_payment %></td>
+              </tr>
+              <% }) %>
+
+              <% } else { %>
+                  <tr>
+                      <td colspan="7">No Results Found</td>
+                  </tr>
+              <% } %>
+
+            </table>
+          </div>
+    </div>
+  </div>
+  </body>
+</html>

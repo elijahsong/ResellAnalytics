@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<div class="topnav">
+  <a class="active" href="insert.html">Insert</a>
+  <a href="update.html">Update</a>
+  <a href="search.html">Search</a>
+  <a href="login.html">Login</a>
+</div>
+
+<html lang="en">
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  </head>
+
+  <body>
+    <main id="main-holder" class="container mt-4 card card-body">
+      <h1 id="login-header">Login</h1>
+      
+      <div id="login-error-msg-holder">
+        <p id="login-error-msg">Invalid username <span id="error-msg-second-line">and/or password</span></p>
+      </div>
+      <div class="form-group">
+      <form id="login-form">
+        <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+        <input type="submit" value="Login" id="login-form-submit">
+      </form>
+      </div>
+    </main>
+  </body>
+</html>

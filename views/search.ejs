@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<div class="topnav">
+  <a class="active" href="insert.html">Insert</a>
+  <a href="update.html">Update</a>
+  <a href="search.html">Search</a>
+  <a href="login.html">Login</a>
+</div>
+
+<html lang="en">
+  <head>
+    <title>Search for a Shoe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  </head>
+
+  <body>
+
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <% if (messages.success) { %>
+              <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
+          <% } %>
+ 
+          <h2>Search for a Shoe</h2>
+          
+          <form action="search.html" method="POST">
+            <div class = "form-group">
+            <input type="text" class="form-control col-lg-9" placeholder="Shoe Name, SKU, Purchase or Sale Date in YYYY-MM-DD format, Purchase or Sale Price, Extra Fees, Purchase or Sale Method, Payment Type" id="keyword" name="keyword" required>
+          </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  </div>
+  </body>
+</html>
+
+
