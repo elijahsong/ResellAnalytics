@@ -18,8 +18,8 @@ router
     var size = req.body.size;
     var shoe_status = req.body.status;
     
-    var sql = `INSERT INTO Shoe(SKU, name) VALUES ('${SKU}', '${name}')`;
-    var sql1 = `INSERT INTO Purchases(date, price, method, payment_type) VALUES('${purchase_date}', ${price},'${method}','${payment_type}')`;
+    var sql = `INSERT INTO Shoe(SKU, name) VALUES (${connection.escape(SKU)}, ${connection.escape(name)}) ON DUPLICATE KEY UPDATE name = ${connection.escape(name)}`;
+    var sql1 = `INSERT INTO Purchases(date, price, method, payment_type) VALUES(${connection.escape(purchase_date)}, ${connection.escape(price)},${connection.escape(method)},${connection.escape(payment_type)})`;
   
     console.log(sql1);
     connection.query(sql, function(err, result) {
@@ -44,7 +44,7 @@ router
             setValue(rows);
         }
   
-        var sql2 = `INSERT INTO Inventory(inventory_id) VALUES(${last_id})`;
+        var sql2 = `INSERT INTO Inventory(inventory_id) VALUES(${connection.escape(last_id)})`;
         console.log(sql2);
         connection.query(sql2, function(err, result) {
           if (err) {
@@ -52,14 +52,14 @@ router
           } else {
             console.log('record id inserted into Inventory');
             
-            var sql3 = `UPDATE Inventory SET SKU='${SKU}', size='${size}', status='${shoe_status}' WHERE inventory_id = ${last_id}`;
+            var sql3 = `UPDATE Inventory SET SKU=${connection.escape(SKU)}, size=${connection.escape(size)}, status=${connection.escape(shoe_status)} WHERE inventory_id = ${connection.escape(last_id)}`;
            
             connection.query(sql3, function(err, result) {
               if (err) throw err;
               console.log('full record inserted into Inventory');
             });
   
-            var sql4 = `INSERT INTO Sales(sales_id) VALUES(${last_id})`;
+            var sql4 = `INSERT INTO Sales(sales_id) VALUES(${connection.escape(last_id)})`;
             
             connection.query(sql4, function(err, result) {
               if (err) throw err;

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var connection = require('../../private/raconnection');
+var connection = require('../../../private/raconnection');
 connection.connect;
 
 router
