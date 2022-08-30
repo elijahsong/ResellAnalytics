@@ -9,12 +9,12 @@ router
   .route('/:id')
   .get(function(req, res, next) {
   var id = req.params.id;
-  var sql = `SELECT DISTINCT p.id AS dataid, sh.name AS name, i.SKU AS SKU, i.size AS size, i.status AS status, 
+  var retrieve = `SELECT DISTINCT p.id AS dataid, sh.name AS name, i.SKU AS SKU, i.size AS size, i.status AS status, 
   p.date AS date, p.price AS price, p.method AS method, p.payment_type AS payment, 
   s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment 
   FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) LEFT JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
   WHERE p.id = ${connection.escape(id)} LIMIT 20`;
-  connection.query(sql, function(err, data) {
+  connection.query(retrieve, function(err, data) {
     var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
     var userData = JSON.parse(rawData);
     console.log(userData);
@@ -55,7 +55,7 @@ router
     sale_date = null;
   }
 
-  var sql1 = `
+  var purchase_update = `
     UPDATE Purchases
     SET date = ${connection.escape(purchase_date)},
     price = ${connection.escape(purchase_price)},
@@ -64,7 +64,7 @@ router
     WHERE id = ${connection.escape(id)}
   `;
 
-  var sql2 = `
+  var inventory_update = `
     UPDATE Inventory
     SET SKU = ${connection.escape(SKU)},
     size = ${connection.escape(size)},
@@ -72,7 +72,7 @@ router
     WHERE inventory_id = ${connection.escape(id)}
   `;
 
-  var sql3 = `
+  var sales_update = `
     UPDATE Sales
     SET date = ${sale_date},
     price = ${sale_price},
@@ -82,21 +82,21 @@ router
     WHERE sales_id = ${connection.escape(id)}
   `;
 
-  console.log(sql3);
+  console.log(sales_update);
   
-  connection.query(sql1, function(err, result) {
+  connection.query(purchase_update, function(err, result) {
     if (err) {
       throw err;
     } else {
       console.log('Purchases table updated');
 
-      connection.query(sql2, function(err, result) {
+      connection.query(inventory_update, function(err, result) {
         if (err) {
           throw err;
         } else {
           console.log('Inventory table updated');
 
-          connection.query(sql3, function(err, result){
+          connection.query(sales_update, function(err, result){
             if (err) {
               throw err;
             } else {

@@ -23,23 +23,23 @@ router
   })
   .post(function(req, res, next){
   var id = req.params.id;
-  var sql1 = `DELETE FROM Inventory WHERE inventory_id = ${id}`;
-  var sql2 = `DELETE FROM Sales WHERE sales_id = ${id}`;
-  var sql3 = `DELETE FROM Purchases WHERE id = ${id}`
+  var inventory_delete = `DELETE FROM Inventory WHERE inventory_id = ${connection.escape(id)}`;
+  var sales_delete = `DELETE FROM Sales WHERE sales_id = ${connection.escape(id)}`;
+  var purchases_delete = `DELETE FROM Purchases WHERE id = ${connection.escape(id)}`
 
-  connection.query(sql1, function(err, result) {
+  connection.query(inventory_delete, function(err, result) {
     if (err) {
       throw err;
     } else {
     console.log('Shoe with id ' + id + ' deleted from Inventory');
     
-    connection.query(sql2, function(err,result) {
+    connection.query(sales_delete, function(err,result) {
       if (err) {
         throw err;
       } else {
         console.log('Shoe with id ' + id + ' deleted from Sales');
 
-        connection.query(sql3, function(err,result) {
+        connection.query(purchases_delete, function(err,result) {
            console.log('Shoe with id ' + id + ' deleted from Purchases');
            req.flash('success', 'Data deleted successfully!');
            res.redirect('/search');

@@ -18,7 +18,7 @@ router.get('/results', function(req, res,next) {
   var keyword = req.cookies["keyword"];
   console.log(keyword);
   var keywordLike = `%${keyword}%`
-  var sql=`SELECT DISTINCT p.id AS dataid, sh.name AS name, i.SKU AS SKU, i.size AS size, i.status AS status, 
+  var search = `SELECT DISTINCT p.id AS dataid, sh.name AS name, i.SKU AS SKU, i.size AS size, i.status AS status, 
   p.date AS date, p.price AS price, p.method AS method, p.payment_type AS payment, 
   s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment 
   FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) LEFT JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
@@ -26,7 +26,8 @@ router.get('/results', function(req, res,next) {
   OR i.status LIKE ${connection.escape(keywordLike)} OR p.date LIKE ${connection.escape(keywordLike)} OR p.price LIKE ${connection.escape(keywordLike)} OR p.method LIKE ${connection.escape(keywordLike)} 
   OR p.payment_type LIKE ${connection.escape(keywordLike)} OR s.date LIKE ${connection.escape(keywordLike)} OR s.price LIKE ${connection.escape(keywordLike)} OR s.extra_fees LIKE ${connection.escape(keywordLike)} 
   OR s.method LIKE ${connection.escape(keywordLike)} OR s.payment_type LIKE ${connection.escape(keywordLike)}`;
-  connection.query(sql, function (err, data, fields) {
+  
+  connection.query(search, function (err, data, fields) {
     if (err) throw err;
     res.render('searchresults', { title: 'Search Results', userData: data, action: 'Load'})
   });

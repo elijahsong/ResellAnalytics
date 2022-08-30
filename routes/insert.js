@@ -18,11 +18,12 @@ router
     var size = req.body.size;
     var shoe_status = req.body.status;
     
-    var sql = `INSERT INTO Shoe(SKU, name) VALUES (${connection.escape(SKU)}, ${connection.escape(name)}) ON DUPLICATE KEY UPDATE name = ${connection.escape(name)}`;
-    var sql1 = `INSERT INTO Purchases(date, price, method, payment_type) VALUES(${connection.escape(purchase_date)}, ${connection.escape(price)},${connection.escape(method)},${connection.escape(payment_type)})`;
-  
-    console.log(sql1);
-    connection.query(sql, function(err, result) {
+    var shoe_insert = `INSERT INTO Shoe(SKU, name) VALUES (${connection.escape(SKU)}, ${connection.escape(name)}) ON DUPLICATE KEY UPDATE name = ${connection.escape(name)}`;
+    var purchases_insert = `INSERT INTO Purchases(date, price, method, payment_type) VALUES(${connection.escape(purchase_date)}, ${connection.escape(price)},${connection.escape(method)},${connection.escape(payment_type)})`;
+    
+
+    console.log(purchases_insert);
+    connection.query(shoe_insert, function(err, result) {
       if (err) {
         throw err;
       } else {
@@ -30,7 +31,7 @@ router
       }
     });
   
-    connection.query(sql1, function(err, result) {
+    connection.query(purchases_insert, function(err, result) {
       if (err) {
         throw err;
       } else {
@@ -41,27 +42,26 @@ router
         connection.query(`SELECT LAST_INSERT_ID() AS lastid`, function(err, rows) {
         if (err) { throw err; }
         else {
-            setValue(rows);
+            setLastId(rows);
         }
-  
-        var sql2 = `INSERT INTO Inventory(inventory_id) VALUES(${connection.escape(last_id)})`;
-        console.log(sql2);
-        connection.query(sql2, function(err, result) {
+
+        var inventory_insert = `INSERT INTO Inventory(inventory_id) VALUES(${connection.escape(last_id)})`;
+        var inventory_update = `UPDATE Inventory SET SKU=${connection.escape(SKU)}, size=${connection.escape(size)}, status=${connection.escape(shoe_status)} WHERE inventory_id = ${connection.escape(last_id)}`;
+        var sales_insert = `INSERT INTO Sales(sales_id) VALUES(${connection.escape(last_id)})`;
+        
+        console.log(inventory_insert);
+        connection.query(inventory_insert, function(err, result) {
           if (err) {
             throw err;
           } else {
             console.log('record id inserted into Inventory');
-            
-            var sql3 = `UPDATE Inventory SET SKU=${connection.escape(SKU)}, size=${connection.escape(size)}, status=${connection.escape(shoe_status)} WHERE inventory_id = ${connection.escape(last_id)}`;
            
-            connection.query(sql3, function(err, result) {
+            connection.query(inventory_update, function(err, result) {
               if (err) throw err;
               console.log('full record inserted into Inventory');
             });
-  
-            var sql4 = `INSERT INTO Sales(sales_id) VALUES(${connection.escape(last_id)})`;
             
-            connection.query(sql4, function(err, result) {
+            connection.query(sales_insert, function(err, result) {
               if (err) throw err;
               console.log('record id inserted into Sales');
               req.flash('success', 'Data added successfully!');
@@ -72,7 +72,7 @@ router
       });
     });
   
-      function setValue(value) {
+      function setLastId(value) {
         last_id = value[0].lastid;
         console.log(last_id);
       }

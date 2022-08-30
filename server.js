@@ -13,7 +13,7 @@ const insert = require("./routes/insert");
 const edit = require("./routes/edit");
 const deleteRouter = require("./routes/delete");
 const search = require("./routes/search");
-const connection = require('../private/raconnection');
+const connection = require('./private/connection');
 
 connection.connect;
 
