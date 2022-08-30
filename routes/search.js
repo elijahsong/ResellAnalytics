@@ -26,10 +26,24 @@ router.get('/results', function(req, res,next) {
   OR i.status LIKE ${connection.escape(keywordLike)} OR p.date LIKE ${connection.escape(keywordLike)} OR p.price LIKE ${connection.escape(keywordLike)} OR p.method LIKE ${connection.escape(keywordLike)} 
   OR p.payment_type LIKE ${connection.escape(keywordLike)} OR s.date LIKE ${connection.escape(keywordLike)} OR s.price LIKE ${connection.escape(keywordLike)} OR s.extra_fees LIKE ${connection.escape(keywordLike)} 
   OR s.method LIKE ${connection.escape(keywordLike)} OR s.payment_type LIKE ${connection.escape(keywordLike)}`;
-  
-  connection.query(search, function (err, data, fields) {
+
+  var count = `SELECT COUNT(DISTINCT p.id) AS counted FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) LEFT JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
+  WHERE p.id LIKE ${connection.escape(keywordLike)} OR sh.name LIKE ${connection.escape(keywordLike)} OR i.SKU LIKE ${connection.escape(keywordLike)} OR i.size LIKE ${connection.escape(keywordLike)} 
+  OR i.status LIKE ${connection.escape(keywordLike)} OR p.date LIKE ${connection.escape(keywordLike)} OR p.price LIKE ${connection.escape(keywordLike)} OR p.method LIKE ${connection.escape(keywordLike)} 
+  OR p.payment_type LIKE ${connection.escape(keywordLike)} OR s.date LIKE ${connection.escape(keywordLike)} OR s.price LIKE ${connection.escape(keywordLike)} OR s.extra_fees LIKE ${connection.escape(keywordLike)} 
+  OR s.method LIKE ${connection.escape(keywordLike)} OR s.payment_type LIKE ${connection.escape(keywordLike)}`;
+
+  var counter;
+  connection.query(count, function(err, data, fields) {
     if (err) throw err;
-    res.render('searchresults', { title: 'Search Results', userData: data, action: 'Load'})
+    counter = data[0].counted;
+    console.log(counter);
+
+    connection.query(search, function (err, data, fields) {
+      if (err) throw err;
+      req.flash('success', counter + ' results found');
+      res.render('searchresults', { title: 'Search Results', userData: data, action: 'Load'});
+    });
   });
 });
 

@@ -41,7 +41,7 @@ router
 
         connection.query(purchases_delete, function(err,result) {
            console.log('Shoe with id ' + id + ' deleted from Purchases');
-           req.flash('success', 'Data deleted successfully!');
+           req.flash('success', 'Shoe deleted successfully!');
            res.redirect('/search');
         });
       }

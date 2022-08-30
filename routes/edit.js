@@ -23,7 +23,7 @@ router
   })
   .post(function(req, res, next){
   var id = req.params.id;
-  var name = req.body.name;
+  var name = req.body.name; // does this need to be included on the views
   var SKU = req.body.SKU;
   var size = req.body.size;
   var status = req.body.status;
@@ -101,7 +101,7 @@ router
               throw err;
             } else {
               console.log('Sales table updated');
-              req.flash('success', 'Data updated succesfully!');
+              req.flash('success', 'Shoe data updated succesfully!');
               res.redirect('/search');
             }
           });

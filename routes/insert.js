@@ -20,7 +20,6 @@ router
     
     var shoe_insert = `INSERT INTO Shoe(SKU, name) VALUES (${connection.escape(SKU)}, ${connection.escape(name)}) ON DUPLICATE KEY UPDATE name = ${connection.escape(name)}`;
     var purchases_insert = `INSERT INTO Purchases(date, price, method, payment_type) VALUES(${connection.escape(purchase_date)}, ${connection.escape(price)},${connection.escape(method)},${connection.escape(payment_type)})`;
-    
 
     console.log(purchases_insert);
     connection.query(shoe_insert, function(err, result) {
@@ -39,10 +38,11 @@ router
     
         var last_id;
     
-        connection.query(`SELECT LAST_INSERT_ID() AS lastid`, function(err, rows) {
+        connection.query(`SELECT LAST_INSERT_ID() AS lastid`, function(err, data) {
         if (err) { throw err; }
         else {
-            setLastId(rows);
+          last_id = data[0].lastid;
+          console.log(last_id);
         }
 
         var inventory_insert = `INSERT INTO Inventory(inventory_id) VALUES(${connection.escape(last_id)})`;
@@ -64,21 +64,14 @@ router
             connection.query(sales_insert, function(err, result) {
               if (err) throw err;
               console.log('record id inserted into Sales');
-              req.flash('success', 'Data added successfully!');
+              req.flash('success', 'Shoe inserted successfully!');
               res.redirect('/insert');
             });
   
           }
-      });
-    });
-  
-      function setLastId(value) {
-        last_id = value[0].lastid;
-        console.log(last_id);
+          });
+        });
       }
-      }
-    
-      
   });
 });
 
