@@ -43,15 +43,14 @@
             <table class="table-spacing">
               
               <%
-              if(userData.length!=0 && action == 'Load'){
-
+              if(userData.length != 0 && action == 'Load'){
               %>
               <tr>
-                <th>Shoe ID</th>
                 <th>Name</th>
                 <th class="widerow">SKU</th>
                 <th>Size</th>
                 <th>Status</th>
+                <th>Profit</th>
                 <th class="widerow">Purchase Date</th>
                 <th>Purchase Price</th>
                 <th class="widerow">Purchase Method</th>
@@ -68,11 +67,11 @@
 
               
               <tr>
-                  <td><%=data.dataid %></td>
                   <td><%=data.name %></td>
                   <td><%=data.SKU %></td>
                   <td><%=data.size %></td>
                   <td><%=data.status %></td>
+                  <td><%=data.profit %></td>
                   <td><%=data.date %></td>
                   <td><%=data.price %></td>
                   <td><%=data.method %></td>

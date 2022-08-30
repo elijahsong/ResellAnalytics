@@ -18,7 +18,7 @@ router.get('/results', function(req, res,next) {
   var keyword = req.cookies["keyword"];
   console.log(keyword);
   var keywordLike = `%${keyword}%`
-  var search = `SELECT DISTINCT p.id AS dataid, sh.name AS name, i.SKU AS SKU, i.size AS size, i.status AS status, 
+  var search = `SELECT DISTINCT p.id AS dataid, sh.name AS name, i.SKU AS SKU, i.size AS size, i.status AS status, (s.price - p.price + COALESCE(s.extra_fees, 0.00)) AS profit,
   p.date AS date, p.price AS price, p.method AS method, p.payment_type AS payment, 
   s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment 
   FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) LEFT JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
