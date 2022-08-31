@@ -19,60 +19,75 @@ router
     var shoe_status = req.body.status;
     
     var shoe_insert = `INSERT INTO Shoe(SKU, name) VALUES (${connection.escape(SKU)}, ${connection.escape(name)}) ON DUPLICATE KEY UPDATE name = ${connection.escape(name)}`;
-    var purchases_insert = `INSERT INTO Purchases(date, price, method, payment_type) VALUES(${connection.escape(purchase_date)}, ${connection.escape(price)},${connection.escape(method)},${connection.escape(payment_type)})`;
+    var purchases_insert = `INSERT INTO Purchases(date, price, method, payment_type) VALUES(${connection.escape(purchase_date)}, ${connection.escape(price)},
+    ${connection.escape(method)},${connection.escape(payment_type)})`;
+    var last_id;
 
-    console.log(purchases_insert);
-    connection.query(shoe_insert, function(err, result) {
-      if (err) {
-        throw err;
-      } else {
-        console.log('SKU ' + SKU + ' registered');
-      }
-    });
-  
-    connection.query(purchases_insert, function(err, result) {
-      if (err) {
-        throw err;
-      } else {
-        console.log('record inserted into Purchases');
-    
-        var last_id;
-    
-        connection.query(`SELECT LAST_INSERT_ID() AS lastid`, function(err, data) {
-        if (err) { throw err; }
-        else {
-          last_id = data[0].lastid;
-          console.log(last_id);
+    function insertPurchase() {
+      return new Promise((resolve, reject) => {
+        connection.query(purchases_insert, (err, result) => {
+          if (err) { return reject(err); }
+          console.log('Purchase inserted');
+          resolve();
         }
+      )}
+    )};
+    function insertShoe() {
+      return new Promise((resolve, reject) => {
+        connection.query(shoe_insert, (err, result) => {
+          if (err) { return reject(err); }
+          console.log(`SKU ${SKU} inserted`);
+          resolve();
+        }
+      )}
+    )};
 
-        var inventory_insert = `INSERT INTO Inventory(inventory_id) VALUES(${connection.escape(last_id)})`;
-        var inventory_update = `UPDATE Inventory SET SKU=${connection.escape(SKU)}, size=${connection.escape(size)}, status=${connection.escape(shoe_status)} WHERE inventory_id = ${connection.escape(last_id)}`;
+    function retrieveLastId() {
+      return new Promise((resolve, reject) => {
+        connection.query(`SELECT LAST_INSERT_ID() AS lastid`, (err, data) => {
+          if (err) { return reject(err); }
+          console.log(`SKU ${SKU} inserted`);
+          last_id = data[0].lastid;
+          resolve(data[0].lastid);
+        }
+      )}
+    )};
+
+    function insertInventory() {
+      return new Promise((resolve, reject) => {
+        console.log(last_id);
+        var inventory_insert = `INSERT INTO Inventory(inventory_id, SKU, size, status) VALUES(${connection.escape(last_id)}, ${connection.escape(SKU)}, 
+        ${connection.escape(size)}, ${connection.escape(shoe_status)})`;
+        connection.query(inventory_insert, (err, result) => {
+          if (err) { return reject(err); }
+          console.log('Inventory inserted');
+          resolve();
+        }
+      )}
+    )};
+    function insertSale() {
+      return new Promise((resolve, reject) => {
         var sales_insert = `INSERT INTO Sales(sales_id) VALUES(${connection.escape(last_id)})`;
-        
-        console.log(inventory_insert);
-        connection.query(inventory_insert, function(err, result) {
-          if (err) {
-            throw err;
-          } else {
-            console.log('record id inserted into Inventory');
-           
-            connection.query(inventory_update, function(err, result) {
-              if (err) throw err;
-              console.log('full record inserted into Inventory');
-            });
-            
-            connection.query(sales_insert, function(err, result) {
-              if (err) throw err;
-              console.log('record id inserted into Sales');
-              req.flash('success', 'Shoe inserted successfully!');
-              res.redirect('/insert');
-            });
-  
-          }
-          });
-        });
+        connection.query(sales_insert, (err, result) => {
+          if (err) { return reject(err); }
+          console.log(`SKU ${SKU} inserted`);
+          resolve();
+        }
+      )}
+    )};
+
+    async function query() {
+      try {
+        const [purchaseResult, shoeResult] = await Promise.all([insertPurchase(), insertShoe()]);
+        const last_id = await retrieveLastId();
+        const [inventoryResult, salesResult] = await Promise.all([insertInventory(), insertSale()]);
+        req.flash('success', 'Shoe inserted successfully!');
+        res.redirect('/insert');
+      } catch (err) {
+        throw err;
       }
-  });
+    }
+    query();
 });
 
 module.exports = router;

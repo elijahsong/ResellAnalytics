@@ -64,20 +64,6 @@ router.get('/results', function(req, res,next) {
     }
   };
   query(); 
-
-  /*
-  connection.query(count, function(err, data, fields) {
-    if (err) throw err;
-    counter = data[0].counted;
-    console.log(counter);
-
-    connection.query(search, function (err, data, fields) {
-      if (err) throw err;
-      req.flash('success', counter + ' results found');
-      res.render('searchresults', { title: 'Search Results', userData: data, action: 'Load'});
-    });
-  });
-  */
 });
 
 module.exports = router;
