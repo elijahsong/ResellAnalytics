@@ -33,7 +33,39 @@ router.get('/results', function(req, res,next) {
   OR p.payment_type LIKE ${connection.escape(keywordLike)} OR s.date LIKE ${connection.escape(keywordLike)} OR s.price LIKE ${connection.escape(keywordLike)} OR s.extra_fees LIKE ${connection.escape(keywordLike)} 
   OR s.method LIKE ${connection.escape(keywordLike)} OR s.payment_type LIKE ${connection.escape(keywordLike)}`;
 
-  var counter;
+  function retrieveCount() {
+    return new Promise((resolve, reject) => {
+      connection.query(count, (err, data) => {
+        if (err) { return reject(err); }
+        console.log('Counter set');
+        resolve(data[0].counted);
+      }
+    )}
+  )};
+
+  function retrieveData() {
+    return new Promise((resolve, reject) => {
+      connection.query(search, (err, data) => {
+        if (err) { return reject(err); }
+        console.log('Search complete');
+        resolve(data);
+      }
+    )}
+  )};
+
+  async function query() {
+    try {
+      const counter = await retrieveCount();
+      const data = await retrieveData();
+      req.flash('success', counter + ' results found');
+      res.render('searchresults', { title: 'Search Results', userData: data, action: 'Load'});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  query(); 
+
+  /*
   connection.query(count, function(err, data, fields) {
     if (err) throw err;
     counter = data[0].counted;
@@ -45,6 +77,7 @@ router.get('/results', function(req, res,next) {
       res.render('searchresults', { title: 'Search Results', userData: data, action: 'Load'});
     });
   });
+  */
 });
 
 module.exports = router;
