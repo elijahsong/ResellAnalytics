@@ -88,9 +88,7 @@ router
     return new Promise((resolve, reject) => {
       console.log('Processing purchase update');
       connection.query(purchase_update, function (err, result) {
-        if (err) {
-          return reject(err);
-        }
+        if (err) { return reject(err); }
         resolve();
       }
     )}
@@ -100,9 +98,7 @@ router
     return new Promise((resolve, reject) => {
       console.log('Processing inventory update');
       connection.query(inventory_update, function (err, result) {
-        if (err) {
-          return reject(err);
-        }
+        if (err) { return reject(err); }
         resolve();
       }
     )}
@@ -112,9 +108,7 @@ router
     return new Promise((resolve, reject) => {
       console.log('Processing sales update');
       connection.query(sales_update, function (err, result) {
-        if (err) {
-          return reject(err);
-        }
+        if (err) { return reject(err); }
         resolve();
       }
     )}
@@ -134,33 +128,5 @@ router
   };
   queryHelper();
 });
-  /*
-  connection.query(purchase_update, function(err, result) {
-    if (err) {
-      throw err;
-    } else {
-      console.log('Purchases table updated');
-
-      connection.query(inventory_update, function(err, result) {
-        if (err) {
-          throw err;
-        } else {
-          console.log('Inventory table updated');
-
-          connection.query(sales_update, function(err, result){
-            if (err) {
-              throw err;
-            } else {
-              console.log('Sales table updated');
-              req.flash('success', 'Shoe data updated succesfully!');
-              res.redirect('/search');
-            }
-          });
-        }
-      });
-    }
-  });
-});
-*/
 
 module.exports = router;
