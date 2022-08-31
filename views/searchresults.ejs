@@ -41,7 +41,6 @@
           <h2>Search Results</h2>
           <div class ="card-body" id="wideresults">
             <table class="table-spacing">
-              
               <%
               if(userData.length != 0 && action == 'Load'){
               %>
@@ -64,8 +63,6 @@
               <%
               userData.forEach(function(data){
               %>
-
-              
               <tr>
                   <td><%=data.name %></td>
                   <td><%=data.SKU %></td>
