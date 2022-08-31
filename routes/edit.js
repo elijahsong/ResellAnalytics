@@ -87,7 +87,7 @@ router
   function updatePurchases() {
     return new Promise((resolve, reject) => {
       console.log('Processing purchase update');
-      connection.query(purchase_update, function (err, result) {
+      connection.query(purchase_update, (err, result) => {
         if (err) { return reject(err); }
         resolve();
       }
@@ -97,7 +97,7 @@ router
   function updateInventory() {
     return new Promise((resolve, reject) => {
       console.log('Processing inventory update');
-      connection.query(inventory_update, function (err, result) {
+      connection.query(inventory_update, (err, result) => {
         if (err) { return reject(err); }
         resolve();
       }
@@ -107,7 +107,7 @@ router
   function updateSales() {
     return new Promise((resolve, reject) => {
       console.log('Processing sales update');
-      connection.query(sales_update, function (err, result) {
+      connection.query(sales_update, (err, result) => {
         if (err) { return reject(err); }
         resolve();
       }
