@@ -55,11 +55,15 @@ router
 
     function insertInventory() {
       return new Promise((resolve, reject) => {
-        console.log(last_id);
         var inventory_insert = `INSERT INTO Inventory(inventory_id, SKU, size, status) VALUES(${connection.escape(last_id)}, ${connection.escape(SKU)}, 
         ${connection.escape(size)}, ${connection.escape(shoe_status)})`;
         connection.query(inventory_insert, (err, result) => {
           if (err) { return reject(err); }
+          if (typeof last_id === 'undefined') {
+            req.flash('failure', 'Error retrieving shoe data. Please try again.')
+            res.redirect('/insert');
+          }
+          console.log(last_id);
           console.log('Inventory inserted');
           resolve();
         }

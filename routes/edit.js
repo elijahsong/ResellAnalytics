@@ -116,11 +116,9 @@ router
 
   async function query() {
     try {
-      const purchaseQuery = await updatePurchases();
-      const inventoryQuery = await updateInventory();
-      const salesQuery = await updateSales();
+      const [purchaseQuery, inventoryQuery, salesQuery] = await Promise.all([updatePurchases(), updateInventory(), updateSales()]);
       console.log('Sales table updated');
-      req.flash('success', 'Shoe data updated succesfully!');
+      req.flash('success', 'Shoe updated succesfully!');
       res.redirect('/search');
     } catch (err) {
       throw err;
