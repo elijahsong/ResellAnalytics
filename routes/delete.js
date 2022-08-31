@@ -30,9 +30,9 @@ router
 
   function deleteInventory() {
     return new Promise((resolve, reject) => {
-      console.log('Deleting inventory');
       connection.query(inventory_delete, (err, result) => {
         if (err) { return reject(err); }
+        console.log('Deleting inventory');
         resolve();
       }
     )}
@@ -40,9 +40,9 @@ router
 
   function deleteSales() {
     return new Promise((resolve, reject) => {
-      console.log('Deleting sales');
       connection.query(sales_delete, (err, result) => {
         if (err) { return reject(err); }
+        console.log('Deleting sales');
         resolve();
       }
     )}
@@ -50,9 +50,9 @@ router
 
   function deletePurchases() {
     return new Promise((resolve, reject) => {
-      console.log('Deleting purchases');
       connection.query(purchases_delete, (err, result) => {
         if (err) { return reject(err); }
+        console.log('Deleting purchases');
         resolve();
       }
     )}
