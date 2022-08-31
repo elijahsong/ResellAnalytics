@@ -114,7 +114,7 @@ router
     )}
   )};
 
-  async function queryHelper() {
+  async function query() {
     try {
       const purchaseQuery = await updatePurchases();
       const inventoryQuery = await updateInventory();
@@ -126,7 +126,7 @@ router
       throw err;
     }
   };
-  queryHelper();
+  query();
 });
 
 module.exports = router;

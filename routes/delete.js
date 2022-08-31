@@ -27,27 +27,49 @@ router
   var sales_delete = `DELETE FROM Sales WHERE sales_id = ${connection.escape(id)}`;
   var purchases_delete = `DELETE FROM Purchases WHERE id = ${connection.escape(id)}`
 
-  connection.query(inventory_delete, function(err, result) {
-    if (err) {
-      throw err;
-    } else {
-    console.log('Shoe with id ' + id + ' deleted from Inventory');
-    
-    connection.query(sales_delete, function(err,result) {
-      if (err) {
-        throw err;
-      } else {
-        console.log('Shoe with id ' + id + ' deleted from Sales');
 
-        connection.query(purchases_delete, function(err,result) {
-           console.log('Shoe with id ' + id + ' deleted from Purchases');
-           req.flash('success', 'Shoe deleted successfully!');
-           res.redirect('/search');
-        });
+  function deleteInventory() {
+    return new Promise((resolve, reject) => {
+      console.log('Deleting inventory');
+      connection.query(inventory_delete, (err, result) => {
+        if (err) { return reject(err); }
+        resolve();
       }
-    });
+    )}
+  )};
+
+  function deleteSales() {
+    return new Promise((resolve, reject) => {
+      console.log('Deleting sales');
+      connection.query(sales_delete, (err, result) => {
+        if (err) { return reject(err); }
+        resolve();
+      }
+    )}
+  )};
+
+  function deletePurchases() {
+    return new Promise((resolve, reject) => {
+      console.log('Deleting purchases');
+      connection.query(purchases_delete, (err, result) => {
+        if (err) { return reject(err); }
+        resolve();
+      }
+    )}
+  )};
+
+  async function query() {
+    try {
+      const inventoryQuery = await deleteInventory();
+      const salesQuery = await deleteSales();
+      const purchasesQuery = await deletePurchases();
+      req.flash('success', 'Shoe deleted succesfully!');
+      res.redirect('/search');
+    } catch (err) {
+      console.log(err);
     }
-  });
+  };
+  query();
 });
 
 module.exports = router;
