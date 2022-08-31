@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../private/connection');
+const SneaksAPI = require('sneaks-api');
+const sneaks = new SneaksAPI();
+
 router.use(express.json());
 
 connection.connect;
@@ -14,10 +17,39 @@ router
   s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment 
   FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) LEFT JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
   WHERE p.id = ${connection.escape(id)} LIMIT 20`;
+
   connection.query(retrieve, function(err, data) {
     var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
     var userData = JSON.parse(rawData);
     console.log(userData);
+
+    //getProducts(keyword, limit, callback) takes in a keyword and limit and returns a product array 
+    try {
+      sneaks.getProducts(userData.SKU, 1, function(err, products) {
+        const jsonClean = JSON.parse(JSON.stringify(products));
+        if (!jsonClean) {
+          console.log(`SKU "${userData.SKU}" not found`);
+          return;
+        }
+        console.log(`Here after ${jsonClean}`);
+        const jsonObject = JSON.parse(JSON.stringify(jsonClean[0]));
+    
+        const resellPriceJSON = jsonObject.lowestResellPrice;
+        const resellPrice_StockX = resellPriceJSON.stockX;
+    
+        const retailPrice = jsonObject.retailPrice;
+        const thumbnail = jsonObject.thumbnail;
+        const resellLinkJSON = jsonObject.resellLinks;
+        const resellLink_StockX = resellLinkJSON.stockX;
+    
+        console.log(`StockX resell price is: ${resellPrice_StockX}`);
+        console.log(`Retail price is: ${retailPrice}`);
+        console.log(`Resell link: ${resellLink_StockX}`);
+        console.log(`Thumbnail: ${thumbnail}`);
+      })
+    } catch (err) {
+      console.log(`SKU ${userData.SKU} not found`);
+    }
     res.render('searchresults', {title: 'Edit Shoe Data', action: 'Edit', userData});
   });
   })
@@ -93,7 +125,6 @@ router
       }
     )}
   )};
-
   function updateInventory() {
     return new Promise((resolve, reject) => {
       connection.query(inventory_update, (err, result) => {
@@ -103,7 +134,6 @@ router
       }
     )}
   )};
-
   function updateSales() {
     return new Promise((resolve, reject) => {
       connection.query(sales_update, (err, result) => {

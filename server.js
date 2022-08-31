@@ -15,6 +15,8 @@ const deleteRouter = require("./routes/delete");
 const search = require("./routes/search");
 const login = require('./routes/login')
 const connection = require('./private/connection');
+const SneaksAPI = require('sneaks-api');
+const sneaks = new SneaksAPI();
 
 connection.connect;
 
