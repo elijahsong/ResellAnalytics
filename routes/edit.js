@@ -18,40 +18,87 @@ router
   FROM Purchases p JOIN Inventory i ON (p.id = i.inventory_id) LEFT JOIN Sales s ON (p.id = s.sales_id) LEFT JOIN Shoe sh ON (i.SKU = sh.SKU) 
   WHERE p.id = ${connection.escape(id)} LIMIT 20`;
 
-  connection.query(retrieve, function(err, data) {
-    var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
-    var userData = JSON.parse(rawData);
-    console.log(userData);
+  function query() {
+    return new Promise((resolve, reject) => {
+      connection.query(retrieve, (err, data) => {
+        if (err) throw err;
+        console.log(data);
+        var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
+        resolve(JSON.parse(rawData));
+      });
+    });
+  }
 
-    //getProducts(keyword, limit, callback) takes in a keyword and limit and returns a product array 
-    try {
-      sneaks.getProducts(userData.SKU, 1, function(err, products) {
-        const jsonClean = JSON.parse(JSON.stringify(products));
-        if (!jsonClean) {
-          console.log(`SKU "${userData.SKU}" not found`);
-          return;
-        }
-        console.log(`Here after ${jsonClean}`);
-        const jsonObject = JSON.parse(JSON.stringify(jsonClean[0]));
-    
-        const resellPriceJSON = jsonObject.lowestResellPrice;
-        const resellPrice_StockX = resellPriceJSON.stockX;
-    
-        const retailPrice = jsonObject.retailPrice;
-        const thumbnail = jsonObject.thumbnail;
-        const resellLinkJSON = jsonObject.resellLinks;
-        const resellLink_StockX = resellLinkJSON.stockX;
-    
-        console.log(`StockX resell price is: ${resellPrice_StockX}`);
-        console.log(`Retail price is: ${retailPrice}`);
-        console.log(`Resell link: ${resellLink_StockX}`);
-        console.log(`Thumbnail: ${thumbnail}`);
+  function getSKU() {
+    return new Promise((resolve, reject) => {
+      connection.query(retrieve, (err, data) => {
+        if (err) throw err;
+        console.log(data);
+        var rawData = JSON.stringify(data[0]).replace('g&s', 'g%26s');
+        var parsedData = JSON.parse(rawData);
+        resolve(parsedData.SKU);
       })
-    } catch (err) {
-      console.log(`SKU ${userData.SKU} not found`);
-    }
-    res.render('searchresults', {title: 'Edit Shoe Data', action: 'Edit', userData});
-  });
+    })
+  }
+
+  function apiCall() {
+    return new Promise(async(resolve, reject) => {
+      try {
+        sneaks.getProducts(await getSKU(), 1, (err, products) => {
+          console.log("Arrived at sneak API");
+          const jsonClean = JSON.parse(JSON.stringify(products));
+          if (!jsonClean) {
+            console.log(`SKU not found`);
+            resolve({
+              resellPrice_StockX: '',
+              retailPrice: '',
+              thumbnailURL: '',
+              resellLink_StockX: ''
+            });
+            return;
+          }
+          console.log("Here after " + JSON.stringify(jsonClean[0]));
+          const jsonObject = JSON.parse(JSON.stringify(jsonClean[0]));
+          const resellPriceJSON = jsonObject.lowestResellPrice;
+          const resellPrice_StockX = resellPriceJSON.stockX;
+      
+          const retailPrice = jsonObject.retailPrice;
+          const thumbnailURL = jsonObject.thumbnail;
+          const resellLinkJSON = jsonObject.resellLinks;
+          const resellLink_StockX = resellLinkJSON.stockX;
+          
+          console.log(`StockX resell price is: ${resellPrice_StockX}`);
+          console.log(`Retail price is: ${retailPrice}`);
+          console.log(`Resell link: ${resellLink_StockX}`);
+          console.log(`Thumbnail: ${thumbnailURL}`);
+
+          resolve({
+            resellPrice_StockX: resellPrice_StockX,
+            retailPrice: retailPrice,
+            thumbnailURL: thumbnailURL,
+            resellLink_StockX: resellLink_StockX
+          });
+        });
+      } catch (err) {
+        console.log(`SKU not found`);
+        resolve({
+          resellPrice_StockX: '',
+          retailPrice: '',
+          thumbnailURL: '',
+          resellLink_StockX: ''
+        });
+      }
+    });
+  }
+
+  async function render() {
+    let queryData = await query();
+    console.log(queryData);
+    getSKU();
+    let apiData = await apiCall();
+    res.render('searchresults', {title: 'Edit Shoe Data', action: 'Edit', userData: queryData, apiData: apiData});
+  }
+  render();
   })
   .post(function(req, res, next){
   var id = req.params.id;
