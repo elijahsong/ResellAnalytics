@@ -61,7 +61,7 @@ router
           const jsonObject = JSON.parse(JSON.stringify(jsonClean[0]));
           const resellPriceJSON = jsonObject.lowestResellPrice;
           const resellPrice_StockX = resellPriceJSON.stockX;
-      
+
           const retailPrice = jsonObject.retailPrice;
           const thumbnailURL = jsonObject.thumbnail;
           const resellLinkJSON = jsonObject.resellLinks;
@@ -71,7 +71,7 @@ router
           console.log(`Current retail price is: ${retailPrice}`);
           console.log(`Resell link: ${resellLink_StockX}`);
           console.log(`Thumbnail URL: ${thumbnailURL}`);
-
+          
           resolve({
             resellPrice_StockX: resellPrice_StockX,
             retailPrice: retailPrice,

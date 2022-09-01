@@ -27,6 +27,21 @@
         border-spacing: 10px !important;
         border-collapse: separate;
       }
+      .float-container {
+        padding: 20px;
+        display:table;
+      }
+      .float-child {
+        width: 50%;
+        float: left;
+        padding: 20px;
+        display:table-row;
+      }
+      .fit {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     </style>
   </head>
 
@@ -86,12 +101,22 @@
             
               </div>
               </ br>
+              <div class="float-container">
+                    <div class="float-child left">
+                      <img class="fit" src="<%= apiData.thumbnailURL%>" alt="No image found">
+                    </div>
+                    <div class="float-child right">
+                      <ul>
+                        <li><%= apiData.resellPrice_StockX %></li>
+                        <li><%= apiData.retailPrice %></li>
+                        <li><a href="<% apiData.resellLink_StockX %>"></a></li>
+                      </ul>
+                    </div>
+                  </div>
               <div class="card-body">
                 <form action="/edit/<%= userData.dataid %>" method="POST">
 
-                  <div>
-                    <img src="<%= apiData.thumbnailURL%>" alt="No image found" style="width:800px;height:600px">
-                  </div>
+                  
                   <div class="form-group">
                     <label for="name">Shoe Name (Full) (cannot be changed)<span style="color: red">*</span></label>
                     <input type="text" class="form-control col-lg-9" id="name" aria-describedby="emailHelp" placeholder="Shoe Name (Full)" name="name" value="<%= userData.name%>" readonly>
