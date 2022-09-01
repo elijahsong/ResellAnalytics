@@ -65,13 +65,13 @@ router
           const retailPrice = jsonObject.retailPrice;
           const thumbnailURL = jsonObject.thumbnail;
           const resellLinkJSON = jsonObject.resellLinks;
-          const resellLink_StockX = resellLinkJSON.stockX;
+          const resellLink_StockX = `"${resellLinkJSON.stockX}"`;
           
           console.log(`StockX resell price is: ${resellPrice_StockX}`);
           console.log(`Current retail price is: ${retailPrice}`);
           console.log(`Resell link: ${resellLink_StockX}`);
           console.log(`Thumbnail URL: ${thumbnailURL}`);
-          
+
           resolve({
             resellPrice_StockX: resellPrice_StockX,
             retailPrice: retailPrice,
