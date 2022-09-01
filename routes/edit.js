@@ -70,7 +70,7 @@ router
           console.log(`StockX resell price is: ${resellPrice_StockX}`);
           console.log(`Current retail price is: ${retailPrice}`);
           console.log(`Resell link: ${resellLink_StockX}`);
-          console.log(`Thumbnail: ${thumbnailURL}`);
+          console.log(`Thumbnail URL: ${thumbnailURL}`);
 
           resolve({
             resellPrice_StockX: resellPrice_StockX,
