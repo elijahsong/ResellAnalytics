@@ -19,12 +19,12 @@ const connection = require('./private/connection');
 const SneaksAPI = require('sneaks-api');
 const sneaks = new SneaksAPI();
 
-const { DateTime } = require("luxon");
+const DateTime = require("luxon");
 
 connection.connect;
 
 var app = express();
-app.locals.DateTime = DateTime;
+app.locals.DateTime = require("luxon");
  
 // set up ejs view engine 
 app.set('views', path.join(__dirname, 'views'));
