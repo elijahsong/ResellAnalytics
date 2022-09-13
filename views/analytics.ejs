@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<div class="topnav">
+  <a class="active" href="/">Home</a>
+  <a href="/insert">Insert</a>
+  <a href="/search">Search</a>
+  <a href="/login">Login</a>
+</div>
+
+<html lang="en">
+  <head>
+    <title>Search for a Shoe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  </head>
+
+  <body>
+
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <% if (messages.success) { %>
+              <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
+          <% } %>
+
+          <% if (messages.error) { %>
+            <p class="alert alert-success m2-4 mb-2"><%- messages.error %></p>
+          <% } %>
+ 
+          <h2>Resell Analytics</h2>
+          
+          <form action="search" method="POST">
+            <div class="form-group">
+              <label for="sale_date">Sale Date <span style="color: red">*</span></label>
+              <input type="date" class="form-control col-lg-9" id="from" aria-describedby="emailHelp" name="from">
+            </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+  <script>
+    document.getElementById('from_date').value = DateTime.now().toFormat('yyyy-MM-dd');
+  </script>
+  </div>
+  </body>
+</html>
+
+

@@ -18,6 +18,9 @@ const connection = require('./private/connection');
 const SneaksAPI = require('sneaks-api');
 const sneaks = new SneaksAPI();
 
+const { DateTime } = require("luxon");
+app.locals.moment = moment;
+
 connection.connect;
 
 var app = express();

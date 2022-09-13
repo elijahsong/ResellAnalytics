@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <title>Update a Shoe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+      #wideresults {
+        overflow: auto;    
+        scrollbar-base-color:#ffeaff;
+        padding:10px !important;
+        border-spacing: 10px 0 !important;
+      }
+      h2 {
+        padding: 10px;
+      }
+      .widerow {
+        white-space:nowrap !important;
+      }
+      .table-spacing{
+        border-spacing: 10px !important;
+        border-collapse: separate;
+      }
+      .float-container {
+        padding: 20px;
+        display:table;
+        max-height: 300px;
+      }
+      .float-child {
+        width: 50%;
+        float: left;
+        max-height: 300px;
+        object-fit: contain;
+        overflow: auto;
+        display: table-row;
+      }
+      .float-child img {
+        width: 100% !important;
+        padding: 20px;
+        max-height: 300px;
+        max-width: 100%;
+        object-fit: contain;
+      }
+      .view, .sell, .buy{
+        color: white;
+        font-size: 0.85em;
+        padding: 5.5px;
+        height: 33%;
+        box-sizing: border-box;
+        text-align: center;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-bottom: 5%;
+      }
+      .float-container h4 {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-weight: bold;
+      }
+      .sell {
+        background-color: rgb(182, 75, 67);
+        overflow: hidden;
+      }
+      .buy {
+        background-color: rgb(0, 99, 64);
+        overflow: hidden;
+      }
+      .view {
+        background-color: rgb(40, 97, 220);
+        overflow: hidden;
+      }
+      .sell :hover {
+        background-color: rgb(226, 232, 240);
+      }
+      .buy :hover {
+        background-color: rgb(226, 232, 240);
+      }
+      .view :hover {
+        background-color: rgb(226, 232, 240);
+        clear: both;
+      }
+      .view a:active {
+        color: white;
+      }
+      .view a:visited {
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="/insert">Insert</a>
+      <a href="/search">Search</a>
+      <a href="/login">Login</a>
+    </div>
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-body">
+          <% if (messages.success) { %>
+              <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
+          <% } %>
+ 
+          <h2><%= analyticData.name %> </h2>
+          <div class ="card-body" id="wideresults">
+            <table class="table-spacing">
+              <%
+              if(userData.length != 0 && action == 'Load'){
+              %>
+              <tr>
+                <th>Name</th>
+                <th class="widerow">SKU</th>
+                <th>Size</th>
+                <th>Status</th>
+                <th>Profit</th>
+                <th class="widerow">Purchase Date</th>
+                <th>Purchase Price</th>
+                <th class="widerow">Purchase Method</th>
+                <th class="widerow">Purchase Payment Type</th>
+                <th class="widerow">Sale Date</th> <!-- s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment  -->
+                <th>Sale Price</th>
+                <th>Extra Fees</th>
+                <th class="widerow">Sale Method</th>
+                <th class="widerow">Sale Payment Type</th>
+              </tr>
+              <%
+              analyticData.forEach(function(data){
+              %>
+              <tr>
+                  <td><%=data.name %></td>
+                  <td><%=data.SKU %></td>
+                  <td><%=data.size %></td>
+                  <td><%=data.status %></td>
+                  <td><%=data.profit %></td>
+                  <td><%=data.date %></td>
+                  <td><%=data.price %></td>
+                  <td><%=data.method %></td>
+                  <td><%=data.payment %></td>
+                  <td><%=data.sale_date %></td>
+                  <td><%=data.sale_price %></td>
+                  <td><%=data.extra_fees %></td>
+                  <td><%=data.sale_method %></td>
+                  <td><%=data.sale_payment %></td>
+              </tr>
+              <% }) %>
+              <% } else { %>
+                  <tr>
+                      <td colspan="7">No Data Found</td>
+                  </tr>
+              <% } %>
+              </div>
+            </div>
+        </div>
+      </div>
+    </body>
