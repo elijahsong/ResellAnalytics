@@ -13,17 +13,18 @@ const insert = require("./routes/insert");
 const edit = require("./routes/edit");
 const deleteRouter = require("./routes/delete");
 const search = require("./routes/search");
-const login = require('./routes/login')
+const login = require('./routes/login');
+const analytics = require('./routes/analytics');
 const connection = require('./private/connection');
 const SneaksAPI = require('sneaks-api');
 const sneaks = new SneaksAPI();
 
 const { DateTime } = require("luxon");
-app.locals.moment = moment;
 
 connection.connect;
 
 var app = express();
+app.locals.DateTime = DateTime;
  
 // set up ejs view engine 
 app.set('views', path.join(__dirname, 'views'));
@@ -50,6 +51,7 @@ app.use('/edit', edit);
 app.use('/delete', deleteRouter);
 app.use('/search', search);
 app.use('/login', login);
+app.use('/analytics', analytics);
 
 /* GET home page, respond by rendering index.ejs */
 app.get('/', function(req, res, next) {
