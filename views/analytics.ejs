@@ -31,7 +31,7 @@
  
           <h2>Resell Analytics</h2>
           
-          <form action="analytics" method="POST">
+          <form action="/analytics" method="POST">
             <div class="form-group">
               <label for="sale_date">From <span style="color: red">*</span></label>
               <input type="date" class="form-control col-lg-9" id="from" aria-describedby="emailHelp" name="from">
@@ -41,11 +41,33 @@
               <input type="date" class="form-control col-lg-9" id="to" aria-describedby="emailHelp" name="to">
             </div>
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <div id="message"></div>
+    <button type="submit" name="submit" id="submit" class="btn btn-primary">Analyze</button>
   </form>
-  <script>
+  <script type="text/javascript">
     document.getElementById('from').value = DateTime.now().toFormat('yyyy-MM-dd');
     document.getElementById('to').value = DateTime.now().toFormat('yyyy-MM-dd');
+
+    let fromInput = document.getElementById('from');
+    let toInput = document.getElementById('to');
+    let messageDiv = document.getElementById('message');
+    let submitButton = document.getElementById('submit');
+
+    let compare = () => {
+      let startValue = (new Date(fromInput.value)).getTime();
+      let endValue = (new Date(toInput.value)).getTime();
+
+      if (endValue < startValue) {
+        messageDiv.innerHTML = 'Start date must be before end date!';
+        submitButton.disabled = true;
+      } else {
+        messageDiv.innerHTML = '';
+        submitButton.disabled = false;
+      }
+    };
+    fromInput.addEventListener('change', compare);
+    endInput.addEventListener('change', compare);
+
   </script>
   </div>
   </body>
