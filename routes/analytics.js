@@ -59,7 +59,7 @@ router.get('/results', function(req, res,next) {
   FROM Purchases
   WHERE date BETWEEN ${connection.escape(from)} AND ${connection.escape(to)}`
 
-  var cycle = `SELECT ROUND(AVG(DATEDIFF(${connection.escape(to)}, ${connection.escape(from)})), 2) AS cycle
+  var cycle = `SELECT ROUND(AVG(DATEDIFF(s.date, p.date)), 2) AS cycle
   FROM Purchases p JOIN Sales s ON p.id = s.sales_id
   WHERE (p.date BETWEEN ${connection.escape(from)} AND ${connection.escape(to)})
   AND (s.date BETWEEN ${connection.escape(from)} AND ${connection.escape(to)})`
@@ -113,7 +113,6 @@ router.get('/results', function(req, res,next) {
     return new Promise((resolve, reject) => {
       connection.query(cycle, (err, data) => {
         if (err) { return reject(err); }
-        console.log(data);
         resolve(data[0].cycle);
       });
     });
@@ -122,7 +121,7 @@ router.get('/results', function(req, res,next) {
   async function render() {
     const array = await Promise.all(
       [avg_price_bought_query(), avg_price_sold_query(), average_profit_query(), net_profit_query(), rev_query(), sales_cycle_query()]);
-    var margin = Math.round(array[3] / array[4] * 100); // value of net_profit query divided by revenue times 100
+    var margin = Math.round(array[3] / array[4] * 10000) / 100; // net profit divided by revenue
     res.render('analyticsresults', { title: 'Analytics Results', data: array, margin: margin});
   }
   render();

@@ -115,10 +115,10 @@
                 <th>Average Buy Price</th> <!-- 0 -->
                 <th>Average Sale Price</th> <!-- 1 -->
                 <th>Average Profit per Shoe</th> <!-- 2 -->
-                <th>Net Profit &#39;Total&#40; </th> <!-- 3 -->
+                <th>Net Profit &#40;Total&#41; </th> <!-- 3 -->
                 <th>Total Revenue</th> <!-- 4 -->
-                <th>Profit Margin</th> <!-- 5 -->
-                <th>Days to Sale</th> <!-- 6 -->
+                <th>Profit Margin</th> <!-- margin -->
+                <th>Days to Sale</th> <!-- 5 -->
               </tr>
               <tr>
                   <td><%=data[0] %></td>
@@ -126,8 +126,8 @@
                   <td><%=data[2] %></td>
                   <td><%=data[3] %></td>
                   <td><%=data[4] %></td>
+                  <td><%=margin %>&#37;</td>
                   <td><%=data[5] %></td>
-                  <td><%=data[6] %></td>
             </tr>
               <% } else { %>
                   <tr>
