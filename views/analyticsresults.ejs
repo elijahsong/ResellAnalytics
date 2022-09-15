@@ -104,51 +104,34 @@
               <p class="alert alert-success m2-4 mb-2"><%- messages.success %></p>
           <% } %>
  
-          <h2><%= analyticData.name %> </h2>
+          <h2>Analytics Dashboard</h2>
           <div class ="card-body" id="wideresults">
             <table class="table-spacing">
+              
               <%
-              if(userData.length != 0 && action == 'Load'){
+              if(data.length != 0){
               %>
               <tr>
-                <th>Name</th>
-                <th class="widerow">SKU</th>
-                <th>Size</th>
-                <th>Status</th>
-                <th>Profit</th>
-                <th class="widerow">Purchase Date</th>
-                <th>Purchase Price</th>
-                <th class="widerow">Purchase Method</th>
-                <th class="widerow">Purchase Payment Type</th>
-                <th class="widerow">Sale Date</th> <!-- s.date AS sale_date, s.price AS sale_price, s.extra_fees AS extra_fees, s.method AS sale_method, s.payment_type AS sale_payment  -->
-                <th>Sale Price</th>
-                <th>Extra Fees</th>
-                <th class="widerow">Sale Method</th>
-                <th class="widerow">Sale Payment Type</th>
+                <th>Average Buy Price</th> <!-- 0 -->
+                <th>Average Sale Price</th> <!-- 1 -->
+                <th>Average Profit per Shoe</th> <!-- 2 -->
+                <th>Net Profit &#39;Total&#40; </th> <!-- 3 -->
+                <th>Total Revenue</th> <!-- 4 -->
+                <th>Profit Margin</th> <!-- 5 -->
+                <th>Days to Sale</th> <!-- 6 -->
               </tr>
-              <%
-              analyticData.forEach(function(data){
-              %>
               <tr>
-                  <td><%=data.name %></td>
-                  <td><%=data.SKU %></td>
-                  <td><%=data.size %></td>
-                  <td><%=data.status %></td>
-                  <td><%=data.profit %></td>
-                  <td><%=data.date %></td>
-                  <td><%=data.price %></td>
-                  <td><%=data.method %></td>
-                  <td><%=data.payment %></td>
-                  <td><%=data.sale_date %></td>
-                  <td><%=data.sale_price %></td>
-                  <td><%=data.extra_fees %></td>
-                  <td><%=data.sale_method %></td>
-                  <td><%=data.sale_payment %></td>
-              </tr>
-              <% }) %>
+                  <td><%=data[0] %></td>
+                  <td><%=data[1] %></td>
+                  <td><%=data[2] %></td>
+                  <td><%=data[3] %></td>
+                  <td><%=data[4] %></td>
+                  <td><%=data[5] %></td>
+                  <td><%=data[6] %></td>
+            </tr>
               <% } else { %>
                   <tr>
-                      <td colspan="7">No Data Found</td>
+                      <td colspan="7">No Data Found in Specified Date Range</td>
                   </tr>
               <% } %>
               </div>
