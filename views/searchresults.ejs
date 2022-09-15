@@ -270,7 +270,7 @@
                       <option value="Paypal">Paypal</option>
                       <option value="Venmo">Venmo</option>
                       <option value="Cashapp">Cashapp</option>
-                      <option value="Paypal g&s">Paypal g&s</option>
+                      <option value="Paypal g&s">Paypal g&#36;s</option>
                       <option value="Cash">Cash</option>
                       <option value="Free">n/a</option>
                     </select>
@@ -352,7 +352,7 @@
                         <option value="Paypal">Paypal</option>
                         <option value="Venmo">Venmo</option>
                         <option value="Cashapp">Cashapp</option>
-                        <option value="Paypal g&s">Paypal g&s</option>
+                        <option value="Paypal g&amp;s">Paypal g&amp;s</option>
                         <option value="Cash">Cash</option>
                         <option value="Free">n/a</option>
                       </select>
@@ -390,7 +390,7 @@
                         <option value="Paypal">Paypal</option>
                         <option value="Venmo">Venmo</option>
                         <option value="Cashapp">Cashapp</option>
-                        <option value="Paypal g&s">Paypal g&s</option>
+                        <option value="Paypal g&amp;s">Paypal g&amp;s</option>
                         <option value="Cash">Cash</option>
                         <option value="Free">n/a</option>
                       </select>
@@ -404,10 +404,10 @@
                     document.getElementById('payment_type').value = decodeURIComponent("<%= userData.payment %>");
                     document.getElementById('sale_payment_type').value = decodeURIComponent("<%= userData.sale_payment %>");
                     document.getElementById('date').value = "<%= userData.date %>";
-                    document.getElementById('price').value = "<%= userData.price %>";
+                    document.getElementById('price').value = "&#36;<%= userData.price %>";
                     document.getElementById('sale_date').value = "<%= userData.sale_date %>";
-                    document.getElementById('sale_price').value = "<%= userData.sale_price %>";
-                    document.getElementById('extra_fees').value = "<%= userData.extra_fees %>";
+                    document.getElementById('sale_price').value = "&#36;<%= userData.sale_price %>";
+                    document.getElementById('extra_fees').value = "&#36;<%= userData.extra_fees %>";
                   </script>
                 </div>
 
